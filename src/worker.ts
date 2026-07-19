@@ -1,25 +1,68 @@
 import { Elysia } from 'elysia';
 import { URL } from 'url';
+import { getPageCookies } from './test.ts';
 
-const base_url = String(process.env.WB_CARD_URL);
+interface WBPrice {
+    product: number;
+}
+interface WBSizes {
+    price: {
+        product: number;
+    }
+}
+interface WBProduct {
+    name: string;
+    pics: number;
+    sizes: WBSizes[];
+}
+interface WBResponse{
+    products: WBProduct[];
+}
+
+//const base_url = String(process.env.WB_CARD_URL);
+const url = new URL(process.env.WB_CARD_URL!)
+//const cookies = await getPageCookies();
+//console.log(cookies);
 
 export async function parse(id: string){
-    const {part, vol}  = getBasket(id);
-    const current_url = String(process.env.WB_CARD_URL).replace("{vol_int}", vol).replace("{part_int}", part)
-    const url = new URL(current_url!);
+    //const {part, vol}  = getBasket(id);
+    const cookies = await getPageCookies();
+    url.searchParams.set('nm', id);
 
-    const response = await fetch(base_url, {});
+    try{
+        console.log(cookies);
+        console.log("---")
+        const response = await fetch(url, {
+            headers: {
+                "Cookie": cookies,
+                "deviceid": process.env.deviceid!,
+            },
+        });
+        const data = await response.json() as WBResponse;
+        const product = data.products[0];
+        if(!product){
+            throw new Error("No product with such article")
+        };
+        const { name, sizes, pics } = product;
+        const price = sizes[0]!.price.product/100;
+        const res = { name, price, pics };
+        return res;
 
-    if(!response.ok){
-        throw new Error(`WB returned ${response.status}`);
+    } catch(error){
+        throw new Error(`WB returned ${error}`);
     }
 
-    const data = await response.json();
-    const { name, sizes, pics } = data.imt_name;
-    const price = sizes[0].price.product/100;
-    const res = { name, price, pics };
+    // const response = await fetch(url, {
+    //     headers: {
+    //         'Cookie': cookies,
+    //     },
+    // });
 
-    return await res;
+    // if(!response.ok){
+    //     throw new Error(`WB returned ${response.status}`);
+    // }
+
+    //return await res;
 }
 
 function getBasket(article: string){

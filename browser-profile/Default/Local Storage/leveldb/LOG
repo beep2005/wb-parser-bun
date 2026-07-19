@@ -1,3 +1,17 @@
-2026/07/19-12:58:45.643 5 Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/Local Storage/leveldb/MANIFEST-000001
-2026/07/19-12:58:45.647 5 Recovering log #3
-2026/07/19-12:58:45.647 5 Reusing old log /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/Local Storage/leveldb/000003.log 
+2026/07/19-20:58:14.745 5 Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/Local Storage/leveldb/MANIFEST-000001
+2026/07/19-20:58:14.750 5 Recovering log #139
+2026/07/19-20:58:14.752 5 Level-0 table #141: started
+2026/07/19-20:58:14.898 5 Level-0 table #141: 83351 bytes OK
+2026/07/19-20:58:15.054 5 Delete type=0 #139
+2026/07/19-20:58:25.656 7 Level-0 table #144: started
+2026/07/19-20:58:25.854 7 Level-0 table #144: 81922 bytes OK
+2026/07/19-20:58:26.062 7 Delete type=0 #142
+2026/07/19-20:58:26.063 7 Compacting 4@0 + 1@1 files
+2026/07/19-20:58:26.153 7 Generated table #145@0: 14 keys, 224369 bytes
+2026/07/19-20:58:26.153 7 Compacted 4@0 + 1@1 files => 224369 bytes
+2026/07/19-20:58:26.228 7 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/07/19-20:58:26.229 7 Delete type=2 #133
+2026/07/19-20:58:26.229 7 Delete type=2 #136
+2026/07/19-20:58:26.229 7 Delete type=2 #138
+2026/07/19-20:58:26.229 7 Delete type=2 #141
+2026/07/19-20:58:26.229 7 Delete type=2 #144
