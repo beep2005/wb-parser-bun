@@ -1,28 +1,29 @@
 import { Elysia } from 'elysia';
 import { URL } from 'url';
 
-const base_url = new URL(process.env.WB_CARD_URL!);
+const base_url = String(process.env.WB_CARD_URL);
 
-export async function parse(id: String){
-    base_url.searchParams.set("nm", id.toString());
-    const response = await fetch(base_url, {
-        headers: {
-            "Accept": "application/json",
-            "user-agent": process.env.USER_AGENT!,
-            "Cookie": process.env.COOKIES!,
-            "deviceid": process.env.DEVICEID!,
-        }
-    });
+export async function parse(id: string){
+    const {part, vol}  = getBasket(id);
+    const current_url = String(process.env.WB_CARD_URL).replace("{vol_int}", vol).replace("{part_int}", part)
+    const url = new URL(current_url!);
+
+    const response = await fetch(base_url, {});
 
     if(!response.ok){
         throw new Error(`WB returned ${response.status}`);
     }
 
     const data = await response.json();
-    const product = data.products[0];
-    const { name, sizes, pics } = product;
+    const { name, sizes, pics } = data.imt_name;
     const price = sizes[0].price.product/100;
     const res = { name, price, pics };
 
     return await res;
+}
+
+function getBasket(article: string){
+    const part = article.slice(0, -3);
+    const vol = article.slice(0, -5);
+    return {part, vol};
 }
