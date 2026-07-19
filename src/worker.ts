@@ -38,6 +38,9 @@ export async function parse(id: string){
                 "deviceid": process.env.deviceid!,
             },
         });
+        if(!response.ok){
+            throw new Error('error')
+        }
         const data = await response.json() as WBResponse;
         const product = data.products[0];
         if(!product){
