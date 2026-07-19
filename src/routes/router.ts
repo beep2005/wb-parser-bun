@@ -7,7 +7,7 @@ export const router = new Elysia()
     .get('/parse/:id', ({params: {id}}) => parsing(id));
 
 //парсить по артикулу
-function parsing(id: String){
+function parsing(id: string){
     //const res = parse(id);
     //return res;
     return parse(id);
