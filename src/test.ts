@@ -1,5 +1,3 @@
-console.log("Headless browser module started")
-
 export async function getPageCookies(){
     return new Promise<string>((resolve, reject) => {
         // создаём инстанс
@@ -9,12 +7,20 @@ export async function getPageCookies(){
         });
         // ждём окончания загрузки
         view.addEventListener("Page.domContentEventFired", async () => {
-            try {  
-                const cookies = await view.evaluate("document.cookie") as string;
-                if(cookies.includes("x_wbaas_token")) {
-                    resolve(cookies);
-                }
-                await Bun.sleep(100);
+            try {
+                while(true){
+                    const cookies = await view.evaluate("document.cookie") as string;
+                    if(cookies.includes("x_wbaas_token")) {
+                        resolve(cookies);
+                        return;
+                    }
+                    await Bun.sleep(100);
+                    console.log("Делаем скриншот текущего состояния...");
+                    const jpegBuffer = await view.screenshot({ format: "jpeg", quality: 85 });
+                    await Bun.write("debug_screen.jpg", jpegBuffer);
+                    console.log("no cookies");
+                }  
+
             } catch (error) {
                 console.error("An error acquired!", error);
                 reject(error);

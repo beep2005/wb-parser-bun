@@ -2,13 +2,12 @@ import { Elysia } from 'elysia';
 import { URL } from 'url';
 import { getPageCookies } from './test.ts';
 
-interface WBPrice {
-    product: number;
-}
+
 interface WBSizes {
     price: {
         product: number;
     }
+    stocks:[];
 }
 interface WBProduct {
     name: string;
@@ -20,7 +19,8 @@ interface WBResponse{
 }
 
 //const base_url = String(process.env.WB_CARD_URL);
-const url = new URL(process.env.WB_CARD_URL!)
+const url = new URL(process.env.WB_CARD_URL!);
+const base_pics_url = (process.env.PICS_URL!) as string;
 //const cookies = await getPageCookies();
 //console.log(cookies);
 
@@ -30,8 +30,7 @@ export async function parse(id: string){
     url.searchParams.set('nm', id);
 
     try{
-        console.log(cookies);
-        console.log("---")
+        console.log("Sending request to WB...")
         const response = await fetch(url, {
             headers: {
                 "Cookie": cookies,
@@ -39,7 +38,7 @@ export async function parse(id: string){
             },
         });
         if(!response.ok){
-            throw new Error('error')
+            throw new Error(`error ${response.status}`)
         }
         const data = await response.json() as WBResponse;
         const product = data.products[0];
@@ -47,6 +46,9 @@ export async function parse(id: string){
             throw new Error("No product with such article")
         };
         const { name, sizes, pics } = product;
+        if(sizes[0]!.stocks.length === 0){
+            throw new Error('Product is out of stock')
+        }
         const price = sizes[0]!.price.product/100;
         const res = { name, price, pics };
         return res;
@@ -55,21 +57,31 @@ export async function parse(id: string){
         throw new Error(`WB returned ${error}`);
     }
 
-    // const response = await fetch(url, {
-    //     headers: {
-    //         'Cookie': cookies,
-    //     },
-    // });
-
     // if(!response.ok){
     //     throw new Error(`WB returned ${response.status}`);
     // }
-
-    //return await res;
 }
 
-function getBasket(article: string){
-    const part = article.slice(0, -3);
-    const vol = article.slice(0, -5);
+async function getBasket(id: string){
+    const part = id.slice(0, -3);
+    const vol = id.slice(0, -5);
     return {part, vol};
 }
+
+// нужно получить правильную ссылку (с/без mow-)
+// надо посмотреть в респонсах в девтулс, может сервер возвращает готовую ссылку
+async function getPics(id: string){
+    const { part, vol } = await getBasket(id);
+    const pics_url = base_pics_url
+        .replace("{vol}", vol).replace("{part}", part)
+        .replace("{id}", id);
+    let res = [];
+    for(let i=1; i<11; i++){
+        const current_url = pics_url.replace("{num}", i.toString());
+        res.push(current_url);
+    }
+    console.log(res);
+    return res;
+}
+
+getPics("488928125")
