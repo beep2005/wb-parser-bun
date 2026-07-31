@@ -1,2 +1,3 @@
-2026/07/31-14:47:00.204 2ec4 Creating DB /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db/metadata since it was missing.
-2026/07/31-14:47:00.784 2ec4 Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db/metadata/MANIFEST-000001
+2026/07/31-17:20:49.912 39cb Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db/metadata/MANIFEST-000001
+2026/07/31-17:20:49.912 39cb Recovering log #3
+2026/07/31-17:20:49.915 39cb Reusing old log /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db/metadata/000003.log 

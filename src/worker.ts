@@ -18,15 +18,11 @@ interface WBResponse{
     products: WBProduct[];
 }
 
-//const base_url = String(process.env.WB_CARD_URL);
 const url = new URL(process.env.WB_CARD_URL!);
 const base_pics_url = (process.env.PICS_URL!) as string;
 const cookies = await getPageCookies();
-//console.log(cookies);
 
 export async function parse(id: string){
-    //const {part, vol}  = getBasket(id);
-    //const cookies = await getPageCookies();
     url.searchParams.set('nm', id);
 
     try{
