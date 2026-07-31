@@ -14,7 +14,7 @@ export async function getPageCookies(){
                         resolve(cookies);
                         return;
                     }
-                    await Bun.sleep(2000);
+                    await Bun.sleep(100);
                     console.log(cookies);
                     //console.log("Делаем скриншот текущего состояния...");
                     //const jpegBuffer = await view.screenshot({ format: "jpeg", quality: 85 });
