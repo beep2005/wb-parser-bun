@@ -14,15 +14,17 @@ export async function getPageCookies(){
                         resolve(cookies);
                         return;
                     }
-                    await Bun.sleep(100);
+                    await Bun.sleep(2000);
+                    console.log(cookies);
                     console.log("Делаем скриншот текущего состояния...");
-                    const jpegBuffer = await view.screenshot({ format: "jpeg", quality: 85 });
-                    await Bun.write("debug_screen.jpg", jpegBuffer);
+                    //const jpegBuffer = await view.screenshot({ format: "jpeg", quality: 85 });
+                    //await Bun.write("debug_screen.jpg", jpegBuffer);
                     console.log("no cookies");
                 }  
 
             } catch (error) {
                 console.error("An error acquired!", error);
+                console.log(error);
                 reject(error);
             } finally {
                 console.log("Headless browser done with cookies");

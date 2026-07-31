@@ -1,3 +1,2 @@
-2026/07/20-10:25:39.679 29e9 Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db/MANIFEST-000001
-2026/07/20-10:25:39.680 29e9 Recovering log #3
-2026/07/20-10:25:39.680 29e9 Reusing old log /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db/000003.log 
+2026/07/31-14:47:00.786 2ec4 Creating DB /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db since it was missing.
+2026/07/31-14:47:01.061 2ec4 Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/shared_proto_db/MANIFEST-000001

@@ -4,7 +4,7 @@ export async function getPageCookies(){
     return new Promise<string>((resolve, reject) => {
         // создаём инстанс
         const view = new Bun.WebView({
-            //dataStore: { directory: "./browser-profile" },
+            dataStore: { directory: "./browser-profile" },
         });
         // ждём окончания загрузки
         view.addEventListener("Page.domContentEventFired", async () => {

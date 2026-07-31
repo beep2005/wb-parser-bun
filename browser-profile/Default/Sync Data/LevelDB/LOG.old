@@ -1,3 +1,2 @@
-2026/07/20-10:25:39.651 29e9 Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/Sync Data/LevelDB/MANIFEST-000001
-2026/07/20-10:25:39.654 29e9 Recovering log #3
-2026/07/20-10:25:39.655 29e9 Reusing old log /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/Sync Data/LevelDB/000003.log 
+2026/07/31-14:47:00.180 2e9c Creating DB /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/Sync Data/LevelDB since it was missing.
+2026/07/31-14:47:00.784 2e9c Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/Sync Data/LevelDB/MANIFEST-000001

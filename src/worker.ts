@@ -21,12 +21,12 @@ interface WBResponse{
 //const base_url = String(process.env.WB_CARD_URL);
 const url = new URL(process.env.WB_CARD_URL!);
 const base_pics_url = (process.env.PICS_URL!) as string;
-//const cookies = await getPageCookies();
+const cookies = await getPageCookies();
 //console.log(cookies);
 
 export async function parse(id: string){
     //const {part, vol}  = getBasket(id);
-    const cookies = await getPageCookies();
+    //const cookies = await getPageCookies();
     url.searchParams.set('nm', id);
 
     try{
@@ -56,10 +56,6 @@ export async function parse(id: string){
     } catch(error){
         throw new Error(`WB returned ${error}`);
     }
-
-    // if(!response.ok){
-    //     throw new Error(`WB returned ${response.status}`);
-    // }
 }
 
 async function getBasket(id: string){
@@ -84,4 +80,4 @@ async function getPics(id: string){
     return res;
 }
 
-getPics("488928125")
+//getPics("488928125")

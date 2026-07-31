@@ -1,3 +1,2 @@
-2026/07/20-10:19:29.503 2318 Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/GCM Store/Encryption/MANIFEST-000001
-2026/07/20-10:19:29.504 2318 Recovering log #3
-2026/07/20-10:19:29.504 2318 Reusing old log /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/GCM Store/Encryption/000003.log 
+2026/07/31-14:47:04.656 2e9b Creating DB /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/GCM Store/Encryption since it was missing.
+2026/07/31-14:47:04.922 2e9b Reusing MANIFEST /home/beep/Документы/vscode_projects/wb-parser-bun/browser-profile/Default/GCM Store/Encryption/MANIFEST-000001
