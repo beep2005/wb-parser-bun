@@ -2,6 +2,8 @@ import { Elysia } from 'elysia';
 import { URL } from 'url';
 import { getPageCookies } from './test.ts';
 
+// ошибка 498 - просрочены куки -> они ЕСТЬ, но они не ТЕ ->
+// поэтому помогает чистка кешэ браузера
 
 interface WBSizes {
     price: {

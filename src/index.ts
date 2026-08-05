@@ -2,8 +2,9 @@ import { Elysia } from 'elysia';
 import { router } from './routes/router';
 
 import { drizzle } from 'drizzle-orm/postgres-js';
+import { relations } from './db/schema';
 
-export const db = drizzle(process.env.DATABASE_URL!);
+export const db = drizzle(process.env.DATABASE_URL! { relations });
 
 const app = new Elysia()
     .listen(process.env.PORT!)

@@ -1,19 +1,37 @@
 import { db } from '../index'
-import { drizzle } from 'drizzle-orm/postgres-js'
 import { eq } from 'drizzle-orm'
-import { products } from './schema'
+import { priceHistory, products } from './schema'
+import { relations } from 'drizzle-orm'
 
-export async function setProductDb(id: string){
-    await db.insert(products).values({id: Number(id), name: 'none'});
+export async function setProductDb(id: number){
+    await db.insert(products).values({
+        id: id, 
+        name: 'none'
+    });
 }
-export async function deleteProductDb(id: string){
+export async function deleteProductDb(id: number){
     await db.delete(products).where(eq(products.id, id));
 };
 
-export async function getProductDb(id: string){
-    //await db.query.products.findOne();
+export async function getProductDb(id: number){
+    const currentProduct = await db.query.products.findFirst({
+        with: {
+            id: id,
+        }
+    });
+    return currentProduct;
 }
 
 export async function getAllProducts(){
-    //await db.query.
+    const allProducts = await db.select().from(products);
+    return allProducts;
+}
+
+// история цены
+export async function updatePriceHistory(id: number, price: number | null, time: Date | null){
+    await db.insert(priceHistory).values({
+        productId: id, 
+        priceAtTime: price, 
+        recordedAt: time
+    })
 }

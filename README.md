@@ -1,5 +1,9 @@
 # wb-parser-bun
 
+# Goals:
+- to add Docker
+- to add RabbitMQ/Kafka
+
 To install dependencies:
 
 ```bash
