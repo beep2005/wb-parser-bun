@@ -1,7 +1,6 @@
-import { db } from '../index'
+import { db } from './db'
 import { eq } from 'drizzle-orm'
-import { priceHistory, products } from './schema'
-import { relations } from 'drizzle-orm'
+import { cookiesStorage, priceHistory, products } from './schema'
 
 export async function setProductDb(id: number){
     await db.insert(products).values({
@@ -15,7 +14,7 @@ export async function deleteProductDb(id: number){
 
 export async function getProductDb(id: number){
     const currentProduct = await db.query.products.findFirst({
-        with: {
+        where: {
             id: id,
         }
     });
@@ -32,6 +31,26 @@ export async function updatePriceHistory(id: number, price: number | null, time:
     await db.insert(priceHistory).values({
         productId: id, 
         priceAtTime: price, 
-        recordedAt: time
+        ...(time && {recordedAt: time}), // передаём time если есть
     })
 }
+
+// достаём cookies
+export async function getCookiesDb(){
+    const cookies = await db.
+        select({
+            cookie: cookiesStorage.current_cookie,
+        }).
+        from(cookiesStorage).
+        where(eq(cookiesStorage.id, 1))
+    console.log(cookies);
+    return cookies[0]?.cookie;
+}
+// сохраняем cookies
+export async function saveCookiesDb(cookies: string){
+    await db.
+        insert(cookiesStorage).
+        values({
+            current_cookie: cookies
+        });
+};

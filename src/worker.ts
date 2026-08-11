@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia';
 import { URL } from 'url';
-import { getPageCookies } from './test.ts';
+import { getCookiesDb } from './db/methods.ts';
+import { cookiesDb } from './index.ts';
 
 // ошибка 498 - просрочены куки -> они ЕСТЬ, но они не ТЕ ->
 // поэтому помогает чистка кешэ браузера
@@ -22,16 +23,17 @@ interface WBResponse{
 
 const url = new URL(process.env.WB_CARD_URL!);
 const base_pics_url = (process.env.PICS_URL!) as string;
-const cookies = await getPageCookies();
 
 export async function parse(id: string){
     url.searchParams.set('nm', id);
-
+    if(!cookiesDb){
+        throw new Error('Cookies are empty')
+    }
     try{
         console.log("Sending request to WB...")
         const response = await fetch(url, {
             headers: {
-                "Cookie": cookies,
+                "Cookie": cookiesDb,
                 "deviceid": process.env.deviceid!,
             },
         });

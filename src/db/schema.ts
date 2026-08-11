@@ -1,5 +1,5 @@
 import { pgTable, timestamp, integer, varchar, boolean } from "drizzle-orm/pg-core";
-import { defineRelations } from "drizzle-orm";
+import { defineRelations } from 'drizzle-orm';
 
 export const products = pgTable('product', {
     // связь -> один <- ко многим 
@@ -26,13 +26,13 @@ export const cookiesStorage = pgTable('cookiesStorage', {
 
 // описание связей
 export const relations = defineRelations({ products, priceHistory }, (r) => ({
-    productHistory: {
-        many(priceHistory)
+    products: {
+        history: r.many.priceHistory(),
+    },
+    priceHistory: {
+        article: r.one.products({
+            from: r.priceHistory.productId,
+            to: r.products.id,
+        }),
     }
-}));
-export const priceHistoryRelations = defineRelations(priceHistory, ({ one }) => ({
-    product: one(products, {
-        fields: [priceHistory.productId],
-        references: [products.id],
-    }),
 }));
