@@ -10,6 +10,10 @@ const app = new Elysia()
 
 console.log(`Hello via Bun! Working on port: ${process.env.PORT}`);
 
+export async function updateGlobalCookies(newCookies: string){
+    cookiesDb = newCookies;
+}
+
 export let cookiesDb = await getCookiesDb()
 
 if(cookiesDb == null){

@@ -18,9 +18,9 @@ export async function getPageCookies(){
                     }
                     await Bun.sleep(100);
                     console.log(cookies);
-                    // console.log("Делаем скриншот текущего состояния...");
-                    // const jpegBuffer = await view.screenshot({ format: "jpeg", quality: 85 });
-                    // await Bun.write("debug_screen.jpg", jpegBuffer);
+                    console.log("Делаем скриншот текущего состояния...");
+                    const jpegBuffer = await view.screenshot({ format: "jpeg", quality: 85 });
+                    await Bun.write("debug_screen.jpg", jpegBuffer);
                     console.log("no cookies");
                 }  
 

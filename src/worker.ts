@@ -1,7 +1,8 @@
 import { Elysia } from 'elysia';
 import { URL } from 'url';
-import { getCookiesDb } from './db/methods.ts';
+import { getCookiesDb, saveCookiesDb } from './db/methods.ts';
 import { cookiesDb } from './index.ts';
+import { getPageCookies } from './getCookies.ts';
 
 // ошибка 498 - просрочены куки -> они ЕСТЬ, но они не ТЕ ->
 // поэтому помогает чистка кешэ браузера
@@ -29,33 +30,28 @@ export async function parse(id: string){
     if(!cookiesDb){
         throw new Error('Cookies are empty')
     }
-    try{
-        console.log("Sending request to WB...")
-        const response = await fetch(url, {
-            headers: {
-                "Cookie": cookiesDb,
-                "deviceid": process.env.deviceid!,
-            },
-        });
-        if(!response.ok){
-            throw new Error(`error ${response.status}`)
-        }
-        const data = await response.json() as WBResponse;
-        const product = data.products[0];
-        if(!product){
-            throw new Error("No product with such article")
-        };
-        const { name, sizes, pics } = product;
-        if(sizes[0]!.stocks.length === 0){
-            throw new Error('Product is out of stock')
-        }
-        const price = sizes[0]!.price.product/100;
-        const res = { name, price, pics };
-        return res;
-
-    } catch(error){
-        throw new Error(`WB returned ${error}`);
+    console.log("Sending request to WB...")
+    const response = await fetch(url, {
+        headers: {
+            "Cookie": cookiesDb,
+            "deviceid": process.env.deviceid!,
+        },
+    });
+    if(!response.ok){
+        throw new Error(`error ${response.status}`)
     }
+    const data = await response.json() as WBResponse;
+    const product = data.products[0];
+    if(!product){
+        throw new Error("No product with such article")
+    };
+    const { name, sizes, pics } = product;
+    if(sizes[0]!.stocks.length === 0){
+        throw new Error('Product is out of stock')
+    }
+    const price = sizes[0]!.price.product/100;
+    const res = { name, price, pics };
+    return res;
 }
 
 async function getBasket(id: string){

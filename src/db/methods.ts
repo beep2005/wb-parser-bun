@@ -37,20 +37,27 @@ export async function updatePriceHistory(id: number, price: number | null, time:
 
 // достаём cookies
 export async function getCookiesDb(){
-    const cookies = await db.
+    const row = await db.
         select({
             cookie: cookiesStorage.current_cookie,
         }).
         from(cookiesStorage).
         where(eq(cookiesStorage.id, 1))
-    console.log(cookies);
-    return cookies[0]?.cookie;
+    return row[0]?.cookie;
 }
 // сохраняем cookies
 export async function saveCookiesDb(cookies: string){
     await db.
         insert(cookiesStorage).
         values({
-            current_cookie: cookies
-        });
+            current_cookie: cookies,
+            updatedAt: new Date(),
+        })
+        .onConflictDoUpdate({
+            target: cookiesStorage.id,
+            set: {
+                current_cookie: cookies,
+                updatedAt: new Date(),
+            }
+        })
 };

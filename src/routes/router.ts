@@ -1,6 +1,8 @@
 import { Elysia } from 'elysia';
 import { parse } from '../worker';
-import { deleteProductDb, getAllProducts, getProductDb, setProductDb } from '../db/methods';
+import { deleteProductDb, getAllProducts, getProductDb, saveCookiesDb, setProductDb } from '../db/methods';
+import { getPageCookies } from '../getCookies';
+import { cookiesDb, updateGlobalCookies } from '..';
 
 export const router = new Elysia()
     .get("/", mainpage)
@@ -11,8 +13,17 @@ export const router = new Elysia()
     .get('/get/:id', ({params: {id}}) => viewCurrent(id))
 
 //парсить по артикулу
-function parsing(id: string){
-    return parse(id);
+async function parsing(id: string){
+    try {
+        return await parse(id);
+    } catch (error) {
+        if(error.message === 'error 498'){
+            const newCookies = await getPageCookies();
+            updateGlobalCookies(newCookies);
+            saveCookiesDb(newCookies);
+            console.log('Cookies were updated');
+        }
+    }
 }
 
 // занести товар в бд как цель парсинга
