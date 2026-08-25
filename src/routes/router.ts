@@ -16,13 +16,21 @@ export const router = new Elysia()
 async function parsing(id: string){
     try {
         return await parse(id);
-    } catch (error) {
-        if(error.message === 'error 498'){
+    } catch (error: any) {
+        const message = error?.message ?? '';
+        console.log(message);
+        if(message === 'error 498'){
+            console.log("Got 498, refreshing cookies...");
+
             const newCookies = await getPageCookies();
             updateGlobalCookies(newCookies);
             saveCookiesDb(newCookies);
+
             console.log('Cookies were updated');
+
+            // один повторный запрос
         }
+        throw error;
     }
 }
 

@@ -5,8 +5,9 @@ import { cookiesStorage, priceHistory, products } from './schema'
 export async function setProductDb(id: number){
     await db.insert(products).values({
         id: id, 
-        name: 'none'
-    });
+        name: null,
+    })
+    .onConflictDoNothing();
 }
 export async function deleteProductDb(id: number){
     await db.delete(products).where(eq(products.id, id));
@@ -19,6 +20,23 @@ export async function getProductDb(id: number){
         }
     });
     return currentProduct;
+}
+
+export async function updateProductDb(
+    id: number,
+    data: {
+        name?: string | null;
+        currentPrice?: number | null;
+        inStock?: boolean | null;
+    }
+){
+    await db
+        .update(products)
+        .set({
+            ...data,
+            updatedAt: new Date(),
+        })
+        .where(eq(products.id, id))
 }
 
 export async function getAllProducts(){
@@ -43,13 +61,14 @@ export async function getCookiesDb(){
         }).
         from(cookiesStorage).
         where(eq(cookiesStorage.id, 1))
+        .limit(1);
     return row[0]?.cookie;
 }
 // сохраняем cookies
 export async function saveCookiesDb(cookies: string){
-    await db.
-        insert(cookiesStorage).
-        values({
+    await db
+        .insert(cookiesStorage)
+        .values({
             current_cookie: cookies,
             updatedAt: new Date(),
         })
@@ -59,5 +78,5 @@ export async function saveCookiesDb(cookies: string){
                 current_cookie: cookies,
                 updatedAt: new Date(),
             }
-        })
+        });
 };

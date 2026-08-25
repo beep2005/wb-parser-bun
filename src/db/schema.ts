@@ -4,7 +4,7 @@ import { defineRelations } from 'drizzle-orm';
 export const products = pgTable('product', {
     // связь -> один <- ко многим 
     id: integer().primaryKey(),
-    name: varchar( {length:255} ).notNull(),
+    name: varchar( {length:255} ),
     currentPrice: integer(), // null - если нет в наличии?
     inStock: boolean(),
     updatedAt: timestamp().defaultNow().notNull(),
@@ -12,15 +12,15 @@ export const products = pgTable('product', {
 
 export const priceHistory = pgTable('priceHistory', {
     priceAtTime: integer(),
-    recordedAt: timestamp().defaultNow(),
+    recordedAt: timestamp().defaultNow().notNull(),
     // связь один ко -> многим <-
-    productId: integer().notNull().references(() => products.id),
+    productId: integer().notNull().references(() => products.id, { onDelete: 'cascade' }),
 });
 
 export const cookiesStorage = pgTable('cookiesStorage', {
     id: integer().primaryKey().default(1),
     current_cookie: varchar( {length:500} ),
-    updatedAt: timestamp().defaultNow(),
+    updatedAt: timestamp().defaultNow().notNull(),
 });
 
 

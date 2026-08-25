@@ -37,6 +37,7 @@ export async function parse(id: string){
             "deviceid": process.env.deviceid!,
         },
     });
+    console.log(response);
     if(!response.ok){
         throw new Error(`error ${response.status}`)
     }
@@ -45,12 +46,12 @@ export async function parse(id: string){
     if(!product){
         throw new Error("No product with such article")
     };
-    const { name, sizes, pics } = product;
+    const { name, sizes } = product;
     if(sizes[0]!.stocks.length === 0){
         throw new Error('Product is out of stock')
     }
     const price = sizes[0]!.price.product/100;
-    const res = { name, price, pics };
+    const res = { name, price };
     return res;
 }
 

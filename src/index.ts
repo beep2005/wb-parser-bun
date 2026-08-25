@@ -19,7 +19,5 @@ export let cookiesDb = await getCookiesDb()
 if(cookiesDb == null){
     cookiesDb = await getPageCookies();
     saveCookiesDb(cookiesDb);
-    console.log(cookiesDb);
-    console.log('Cookies were saved into db');
 }
 
