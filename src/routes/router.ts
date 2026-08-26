@@ -18,7 +18,6 @@ async function parsing(id: string){
         return await parse(id);
     } catch (error: any) {
         const message = error?.message ?? '';
-        console.log(message);
         if(message === 'error 498'){
             console.log("Got 498, refreshing cookies...");
 

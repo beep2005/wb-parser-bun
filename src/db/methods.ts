@@ -2,6 +2,13 @@ import { db } from './db'
 import { eq } from 'drizzle-orm'
 import { cookiesStorage, priceHistory, products } from './schema'
 
+export async function getProductsToParse() {
+    const list = await db
+        .select({id: products.id}).from(products);
+    const res = list.map(item=>item.id);
+    return res;
+}
+
 export async function setProductDb(id: number){
     await db.insert(products).values({
         id: id, 
