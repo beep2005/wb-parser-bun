@@ -1,6 +1,10 @@
+[Русская версия](README.ru.md)
 # wb-parser-bun
 
-# Goals:
+
+
+
+# Future plans:
 - to add Docker
 - to add RabbitMQ/Kafka
 
