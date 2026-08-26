@@ -35,7 +35,17 @@ async function parsing(id: string){
 
 // занести товар в бд как цель парсинга
 function setProduct(id: string){
-    setProductDb(Number(id));
+    // проверка на валидность артикула
+    const isValid = /^\d{4,12}$/.test(id);;
+    if(isValid){
+        setProductDb(Number(id));
+    } else {
+        // артикул невалидный, возвращаем ошибку
+        return new Response(
+            JSON.stringify({ error: 'Invalid article. Only digits allowed (4–12 characters).' }),
+            { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
 };
 // удалить продукт
 function deleteProduct(id: string){
